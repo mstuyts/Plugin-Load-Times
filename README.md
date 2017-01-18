@@ -3,4 +3,4 @@
 
 This plugin adds an item to the plugin menu to see how long each plugin loads during QGIS startup.
 
-**This plugin isn't finished yet''
+**This plugin isn't finished yet**
