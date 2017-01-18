@@ -10,7 +10,7 @@
 name=Plugin Load Times
 qgisMinimumVersion=2.0
 description=Show how long each QGIS plugin loads
-version=0.1
+version=0.2
 author=Michel Stuyts
 email=info@stuyts.xyz
 
@@ -23,7 +23,8 @@ repository=https://github.com/mstuyts/Plugin-Load-Times
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=version 0.1: First working version
+# changelog=version 0.2: moved main script because of bug
+    version 0.1: First working version
 
 # Tags are comma separated with spaces allowed
 tags=plugin, performance
@@ -32,8 +33,7 @@ homepage=https://github.com/mstuyts/Plugin-Load-Times
 category=Plugins
 icon=icon.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-

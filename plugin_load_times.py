@@ -22,6 +22,7 @@
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon
+import qgis.utils
 # Initialize Qt resources from file resources.py
 import resources
 # Import the code for the dialog
@@ -80,7 +81,6 @@ class PluginLoadTimes:
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('PluginLoadTimes', message)
-
 
     def add_action(
         self,
@@ -183,6 +183,11 @@ class PluginLoadTimes:
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
+        outputtext=""
+        data=qgis.utils.plugin_times
+        for key,value in sorted(data.items(), key=lambda x: x[0].lower()):
+           outputtext += key + ": " + value + "\n"
+        self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
         # Run the dialog event loop
         result = self.dlg.exec_()

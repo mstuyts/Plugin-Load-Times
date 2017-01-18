@@ -22,9 +22,8 @@
 """
 
 import os
-import qgis.utils
 from PyQt4 import QtGui, uic
-
+from pprint import pprint
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'plugin_load_times_dialog_base.ui'))
 
@@ -33,10 +32,4 @@ class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         """Constructor."""
         super(PluginLoadTimesDialog, self).__init__(parent)
-        # Set up the user interface from Designer.
         self.setupUi(self)
-        outputtext=""
-        data=qgis.utils.plugin_times
-        for key,value in sorted(data.items(), key=lambda x: x[0].lower()):
-           outputtext += key + ": " + value + "\n"
-        self.showloadtimes.setText(outputtext)
