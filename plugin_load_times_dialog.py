@@ -41,4 +41,4 @@ class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
         self.setupUi(self)
         # data=qgis.utils.plugin_times
         # for key,value in data.items():
-        #    print "plugin: %s - loadtime: %s" % (key,value)
+        #   print "plugin: %s - loadtime: %s" % (key,value)
