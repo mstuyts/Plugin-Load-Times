@@ -22,7 +22,7 @@
 """
 
 import os
-
+import qgis.utils
 from PyQt4 import QtGui, uic
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -34,11 +34,9 @@ class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
         """Constructor."""
         super(PluginLoadTimesDialog, self).__init__(parent)
         # Set up the user interface from Designer.
-        # After setupUI you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
-        # data=qgis.utils.plugin_times
-        # for key,value in data.items():
-        #   print "plugin: %s - loadtime: %s" % (key,value)
+        outputtext=""
+        data=qgis.utils.plugin_times
+        for key,value in sorted(data.items(), key=lambda x: x[0].lower()):
+           outputtext += key + ": " + value + "\n"
+        self.showloadtimes.setText(outputtext)
