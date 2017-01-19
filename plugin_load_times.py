@@ -136,7 +136,15 @@ class PluginLoadTimes:
         outputtext=""
         data=qgis.utils.plugin_times
         for key,value in sorted(data.items(), key=lambda x: x[0].lower()):
-           outputtext += key + ": " + value + "\n"
+            if float(value[:-1])<0.1:
+                color="green"
+            elif float(value[:-1])<1:
+                color="#eedf00"
+            elif float(value[:-1])<5:
+                color="orange"
+            else:
+                color="red"
+            outputtext += "<p style='font-weight: bold; font-size: 11pt; color: " + color  + ";'>" + key + ": " + value + "</p>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
         # Run the dialog event loop
