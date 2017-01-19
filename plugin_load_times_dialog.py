@@ -6,7 +6,6 @@
  Show how long each QGIS plugin loads
                              -------------------
         begin                : 2017-01-18
-        git sha              : $Format:%H$
         copyright            : (C) 2017 by Michel Stuyts
         email                : info@stuyts.xyz
  ***************************************************************************/
@@ -30,7 +29,6 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        """Constructor."""
         super(PluginLoadTimesDialog, self).__init__(parent)
         self.setWindowFlags( self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint )
         self.setupUi(self)

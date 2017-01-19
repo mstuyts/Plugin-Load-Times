@@ -8,7 +8,6 @@
         begin                : 2017-01-18
         copyright            : (C) 2017 by Michel Stuyts
         email                : info@stuyts.xyz
-        git sha              : $Format:%H$
  ***************************************************************************/
 
 /***************************************************************************
@@ -26,9 +25,6 @@
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
     """Load PluginLoadTimes class from file PluginLoadTimes.
-
-    :param iface: A QGIS interface instance.
-    :type iface: QgsInterface
     """
     #
     from .plugin_load_times import PluginLoadTimes
