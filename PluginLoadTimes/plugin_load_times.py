@@ -27,6 +27,7 @@ import resources
 # Import the code for the dialog
 from plugin_load_times_dialog import PluginLoadTimesDialog
 import os.path
+import sys
 
 
 class PluginLoadTimes:
@@ -51,15 +52,30 @@ class PluginLoadTimes:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-
         # Declare instance attributes
         self.actions = []
         self.menu = self.tr(u'&Plugin Load Times')
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'PluginLoadTimes')
         self.toolbar.setObjectName(u'PluginLoadTimes')
+        # Create the dialog (after translation) and keep reference
+        self.dlg = PluginLoadTimesDialog()
+        self.dlg.sortspeed.clicked.connect(self.sortingspeed)
+        self.dlg.sortspeedrev.clicked.connect(self.sortingspeedrev)
+        self.dlg.sortalphabetical.clicked.connect(self.sortingalphabetical)
+        self.dlg.sortalphabeticalrev.clicked.connect(self.sortingalphabeticalrev)
 
-    # noinspection PyMethodMayBeStatic
+    def colorcode(self,time) :
+        if float(time[:-1])<0.1:
+            color="green"
+        elif float(time[:-1])<1:
+            color="#eedf00"
+        elif float(time[:-1])<5:
+            color="orange"
+        else:
+            color="red"
+        return color
+
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
 
@@ -86,9 +102,6 @@ class PluginLoadTimes:
         whats_this=None,
         parent=None):
 
-        # Create the dialog (after translation) and keep reference
-        self.dlg = PluginLoadTimesDialog()
-
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
         action.triggered.connect(callback)
@@ -112,6 +125,46 @@ class PluginLoadTimes:
 
         return action
 
+    def sortingspeed(self):
+        data=qgis.utils.plugin_times
+        outputtext="<table style='border: none;'>"
+        for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=False):
+            color=self.colorcode(value)
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+        outputtext += "</table>"
+        self.dlg.showloadtimes.setText(outputtext)
+        self.dlg.show()
+
+    def sortingspeedrev(self):
+        data=qgis.utils.plugin_times
+        outputtext="<table style='border: none;'>"
+        for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
+            color=self.colorcode(value)
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+        outputtext += "</table>"
+        self.dlg.showloadtimes.setText(outputtext)
+        self.dlg.show()
+
+    def sortingalphabetical(self):
+        data=qgis.utils.plugin_times
+        outputtext="<table style='border: none;'>"
+        for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=False):
+            color=self.colorcode(value)
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+        outputtext += "</table>"
+        self.dlg.showloadtimes.setText(outputtext)
+        self.dlg.show()
+
+    def sortingalphabeticalrev(self):
+        data=qgis.utils.plugin_times
+        outputtext="<table style='border: none;'>"
+        for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=True):
+            color=self.colorcode(value)
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+        outputtext += "</table>"
+        self.dlg.showloadtimes.setText(outputtext)
+        self.dlg.show()
+
     def initGui(self):
         icon_path = ':/plugins/PluginLoadTimes/icon.png'
         self.add_action(
@@ -119,7 +172,6 @@ class PluginLoadTimes:
             text=self.tr(u'Plugin Load Times'),
             callback=self.run,
             parent=self.iface.mainWindow())
-
 
     def unload(self):
         for action in self.actions:
@@ -130,27 +182,12 @@ class PluginLoadTimes:
         # remove the toolbar
         del self.toolbar
 
-
     def run(self):
-        # show the dialog
-        outputtext=""
-        data=qgis.utils.plugin_times
-        for key,value in sorted(data.items(), key=lambda x: x[0].lower()):
-            if float(value[:-1])<0.1:
-                color="green"
-            elif float(value[:-1])<1:
-                color="#eedf00"
-            elif float(value[:-1])<5:
-                color="orange"
-            else:
-                color="red"
-            outputtext += "<p style='font-weight: bold; font-size: 11pt; color: " + color  + ";'>" + key + ": " + value + "</p>"
-        self.dlg.showloadtimes.setText(outputtext)
-        self.dlg.show()
+        # show the results
+        self.sortingalphabetical()
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
         if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
             pass
+

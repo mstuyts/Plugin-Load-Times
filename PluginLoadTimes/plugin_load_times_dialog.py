@@ -22,7 +22,7 @@
 
 import os
 from PyQt4 import QtGui, QtCore, uic
-from pprint import pprint
+
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'plugin_load_times_dialog_base.ui'))
 
@@ -30,5 +30,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         super(PluginLoadTimesDialog, self).__init__(parent)
-        self.setWindowFlags( self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint )
+        self.resize(QtCore.QSize(700, 500).expandedTo(self.minimumSizeHint()))
+        self.setWindowIcon(QtGui.QIcon(":/plugins/PluginLoadTimes/icon.png"))
+        self.setWindowFlags( self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint | QtCore.Qt.WindowMinMaxButtonsHint)
         self.setupUi(self)

@@ -2,7 +2,7 @@
 name=Plugin Load Times
 qgisMinimumVersion=2.0
 description=This plugin has just one simple function: it shows you how long each plugin loads when QGIS starts.
-version=1.0
+version=1.1
 author=Michel Stuyts
 email=info@stuyts.xyz
 
@@ -11,7 +11,8 @@ about=This plugin has just one simple function: it shows you how long each plugi
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=https://github.com/mstuyts/Plugin-Load-Times
 
-changelog=version 1.0: no longer experimental, replaced icon, updated UI
+changelog=version 1.1: updated UI, added sorting
+    version 1.0: no longer experimental, replaced icon, updated UI
     version 0.5.1: unnecessary files were removed
     version 0.5: added colors
     version 0.4: updated metadata
