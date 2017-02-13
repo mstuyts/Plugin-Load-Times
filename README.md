@@ -1,4 +1,4 @@
-# ![icon](https://github.com/mstuyts/Plugin-Load-Times/blob/master/PluginLoadTimes/icon.png?raw=true) Plugin Load Times
+# ![icon](https://github.com/mstuyts/Plugin-Load-Times/blob/master/PluginLoadTimes/icon.png?raw=true) "Plugin Load Times" for QGIS
 *A plugin to show how long each QGIS plugin loads when QGIS starts.*
 
 This plugin adds a toolbar button and an item to the plugin menu to see how long each plugin loads during QGIS startup. It shows the QGIS python variable *qgis.utils.plugin_times* in an easy to understand window. It's possible to sort the results based on plugin name or on load time.
