@@ -21,16 +21,21 @@
 """
 
 import os
-from PyQt4 import QtGui, QtCore, uic
-
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QDialog
+try:
+    from PyQt4 import uic
+except ImportError:
+    from PyQt5 import uic
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'plugin_load_times_dialog_base.ui'))
 
 
-class PluginLoadTimesDialog(QtGui.QDialog, FORM_CLASS):
+class PluginLoadTimesDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         super(PluginLoadTimesDialog, self).__init__(parent)
-        self.resize(QtCore.QSize(700, 500).expandedTo(self.minimumSizeHint()))
-        self.setWindowIcon(QtGui.QIcon(":/plugins/PluginLoadTimes/icon.png"))
-        self.setWindowFlags( self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint | QtCore.Qt.WindowMinMaxButtonsHint)
+        self.resize(QSize(700, 500).expandedTo(self.minimumSizeHint()))
+        self.setWindowIcon(QIcon(":/plugins/PluginLoadTimes/icon.png"))
+        self.setWindowFlags( self.windowFlags() & ~Qt.WindowContextHelpButtonHint | Qt.WindowMinMaxButtonsHint)
         self.setupUi(self)

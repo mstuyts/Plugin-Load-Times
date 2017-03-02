@@ -19,13 +19,17 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
+from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
 import qgis.utils
 # Initialize Qt resources from file resources.py
-import resources
+try:
+    from .resources import *
+except ImportError:
+    from .resources3 import *
 # Import the code for the dialog
-from plugin_load_times_dialog import PluginLoadTimesDialog
+from .plugin_load_times_dialog import PluginLoadTimesDialog
 import os.path
 import sys
 
