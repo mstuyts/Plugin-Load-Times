@@ -19,9 +19,15 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+try:
+    from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+except ImportError:
+    from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+try:
+    from qgis.PyQt.QtGui import QIcon
+    from qgis.PyQt.QtWidgets import QAction
+except ImportError:
+    from PyQt4.QtGui import QAction, QIcon
 import qgis.utils
 # Initialize Qt resources from file resources.py
 try:

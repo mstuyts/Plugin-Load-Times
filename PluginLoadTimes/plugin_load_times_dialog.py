@@ -21,9 +21,15 @@
 """
 
 import os
-from qgis.PyQt.QtCore import *
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QDialog
+try:
+    from qgis.PyQt.QtCore import *
+except ImportError:
+    from PyQt4.QtCore import *
+try:
+    from qgis.PyQt.QtGui import QIcon
+    from qgis.PyQt.QtWidgets import QDialog
+except ImportError:
+    from PyQt4.QtGui import QIcon, QDialog
 try:
     from PyQt4 import uic
 except ImportError:
