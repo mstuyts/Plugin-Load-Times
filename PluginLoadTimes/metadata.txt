@@ -12,7 +12,7 @@ about=This plugin has just one simple function: it shows you how long each plugi
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=https://github.com/mstuyts/Plugin-Load-Times
 
-changelog=version 1.2 updated to work with both QGIS 2.x and 3.x
+changelog=version 1.2: updated to work with both QGIS 2.x and 3.x
     version 1.1: updated UI, added sorting
     version 1.0: no longer experimental, replaced icon, updated UI
     version 0.5.1: unnecessary files were removed
