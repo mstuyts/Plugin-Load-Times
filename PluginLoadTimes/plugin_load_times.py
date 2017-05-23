@@ -194,7 +194,7 @@ class PluginLoadTimes:
 
     def run(self):
         # show the results
-        self.sortingalphabetical()
+        self.sortingspeedrev()
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
