@@ -167,7 +167,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="sortalphabetical">
+        <widget class="QPushButton" name="sortspeedrev">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -180,32 +180,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Alphabetical</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>:/plugins/PluginLoadTimes/up.png</normaloff>:/plugins/PluginLoadTimes/up.png</iconset>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="sortalphabeticalrev">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Alphabetical</string>
+          <string>Load time</string>
          </property>
          <property name="icon">
           <iconset>
@@ -245,7 +220,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="sortspeedrev">
+        <widget class="QPushButton" name="sortalphabeticalrev">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -258,11 +233,36 @@
           </font>
          </property>
          <property name="text">
-          <string>Load time</string>
+          <string>Alphabetical</string>
          </property>
          <property name="icon">
           <iconset>
            <normaloff>:/plugins/PluginLoadTimes/down.png</normaloff>:/plugins/PluginLoadTimes/down.png</iconset>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sortalphabetical">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Alphabetical</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>:/plugins/PluginLoadTimes/up.png</normaloff>:/plugins/PluginLoadTimes/up.png</iconset>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">buttonGroup</string>
@@ -317,9 +317,6 @@
  </widget>
  <tabstops>
   <tabstop>sortalphabetical</tabstop>
-  <tabstop>sortalphabeticalrev</tabstop>
-  <tabstop>sortspeed</tabstop>
-  <tabstop>sortspeedrev</tabstop>
   <tabstop>button_box</tabstop>
  </tabstops>
  <resources/>
