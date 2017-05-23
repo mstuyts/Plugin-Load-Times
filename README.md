@@ -5,10 +5,10 @@ This plugin adds a toolbar button and an item to the plugin menu to see how long
 
 **"PluginLoadTimes"** works in *QGIS 2.x* (2.14 and newer) and *QGIS 3.x*.  
 
-<div style="text-align:center; font-size: 250%;">"Plugin Load Times" for QGIS is also available in the [Official QGIS Plugin Repository](http://plugins.qgis.org/plugins/PluginLoadTimes/). You can download it from within [QGIS](http://qgis.org). </div>
+**"Plugin Load Times" for QGIS is also available in the [Official QGIS Plugin Repository](http://plugins.qgis.org/plugins/PluginLoadTimes/). You can download it from within [QGIS](http://qgis.org). **
 
 This QGIS plugin is inspired by a [Stack Exchange question](http://gis.stackexchange.com/questions/209129/how-to-tell-which-qgis-plugins-are-slow-to-load/209131).
 
 If you use the plugin and notice a problem with it, please [report a bug](https://github.com/mstuyts/Plugin-Load-Times/issues).
 
-<div style="text-align:center; font-size: 250%;">[Download the latest version from Github](https://github.com/mstuyts/Plugin-Load-Times/releases/latest)</div>
+**[Download the latest version from Github](https://github.com/mstuyts/Plugin-Load-Times/releases/latest)**
