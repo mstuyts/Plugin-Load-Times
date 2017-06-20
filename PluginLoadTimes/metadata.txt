@@ -3,7 +3,7 @@ name=Plugin Load Times
 qgisMinimumVersion=2.14
 qgisMaximumVersion=3.98
 description=This plugin shows you how long each plugin loads when QGIS starts.
-version=1.3
+version=2.0
 author=Michel Stuyts
 email=info@stuyts.xyz
 
@@ -12,7 +12,8 @@ about=This plugin was created by Michel Stuyts (https://stuyts.xyz). License: GP
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=http://plugins.qgis.org/plugins/PluginLoadTimes/
 
-changelog=version 1.3: changed default ordering and changed button order in UI.
+changelog=version 2.0: added a pie chart as experimental feature
+    version 1.3: changed default ordering and changed button order in UI.
     version 1.2.1: made compatible with QGIS 2.14
     version 1.2: updated to work with both QGIS 2.x and 3.x
     version 1.1: updated UI, added sorting
@@ -29,5 +30,5 @@ tags=plugin, performance
 homepage=https://github.com/mstuyts/Plugin-Load-Times
 category=Plugins
 icon=icon.png
-experimental=False
+experimental=True
 deprecated=False

@@ -24,10 +24,10 @@ try:
 except ImportError:
     from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 try:
-    from qgis.PyQt.QtGui import QIcon
-    from qgis.PyQt.QtWidgets import QAction
+    from qgis.PyQt.QtGui import QIcon, QColor
+    from qgis.PyQt.QtWidgets import QAction, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem
 except ImportError:
-    from PyQt4.QtGui import QAction, QIcon
+    from PyQt4.QtGui import QAction, QIcon, QColor, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem
 import qgis.utils
 # Initialize Qt resources from file resources.py
 try:
@@ -37,7 +37,7 @@ except ImportError:
 # Import the code for the dialog
 from .plugin_load_times_dialog import PluginLoadTimesDialog
 import os.path
-import sys
+import sys, random
 
 
 class PluginLoadTimes:
@@ -134,7 +134,68 @@ class PluginLoadTimes:
         self.actions.append(action)
 
         return action
-
+    def addgraph(self):
+        data=qgis.utils.plugin_times
+        scene = QGraphicsScene()
+        set_angle = 0
+        small_times = 0
+        small_name="all other plugins"
+        colours = []
+        plugins = []
+        times = []
+        percentage = []
+        for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
+            number = []
+            for count in range(3):
+                number.append(random.randrange(0, 255))
+            colours.append(QColor(number[0],number[1],number[2]))
+            plugins.append(key)
+            times.append(float(value[:-1]))
+        totaltime=sum(times)
+        numberoftimes=len(times)
+        try:
+            listrange=xrange(0, numberoftimes-1)
+        except NameError:
+            listrange=range(0, numberoftimes-1)
+        for id in listrange:
+            percentage.append(times[id]/totaltime)
+            if percentage[id]>0.03:
+                angle = round(float(times[id]*5760)/totaltime)
+                ellipse = QGraphicsEllipseItem(0,0,300,300)
+                ellipse.setPos(0,0)
+                ellipse.setStartAngle(set_angle)
+                ellipse.setSpanAngle(5760-set_angle)
+                ellipse.setBrush(colours[id])
+                set_angle += angle
+                scene.addItem(ellipse)
+                rectangle=QGraphicsRectItem(-200,(id*30)+25,10,10)
+                rectangle.setBrush(colours[id])
+                scene.addItem(rectangle)
+                legend=QGraphicsTextItem(plugins[id]+" ("+str(int(round(percentage[id]*100)))+"%)")
+                legend.setPos(-185,(id*30)+20)
+                scene.addItem(legend)
+                maxid=id
+                
+            else:
+                small_times+=times[id]
+                small_colour=colours[id]
+        if small_times>0:
+            angle = round(float(small_times*5760)/totaltime)
+            ellipse = QGraphicsEllipseItem(0,0,300,300)
+            ellipse.setPos(0,0)
+            ellipse.setStartAngle(set_angle)
+            ellipse.setSpanAngle(angle)
+            ellipse.setBrush(small_colour)
+            scene.addItem(ellipse)   
+            rectangle=QGraphicsRectItem(-200,((maxid+1)*30)+25,10,10)
+            rectangle.setBrush(small_colour)
+            scene.addItem(rectangle)    
+            legend=QGraphicsTextItem(small_name)
+            legend.setDefaultTextColor(QColor(160,160,160))
+            legend.setPos(-185,((maxid+1)*30)+20)
+            scene.addItem(legend)            
+        self.dlg.graphicsView.setScene(scene)
+        self.dlg.show()
     def sortingspeed(self):
         data=qgis.utils.plugin_times
         outputtext="<table style='border: none;'>"
@@ -195,6 +256,7 @@ class PluginLoadTimes:
     def run(self):
         # show the results
         self.sortingspeedrev()
+        self.addgraph()
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
