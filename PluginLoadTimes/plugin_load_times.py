@@ -24,10 +24,10 @@ try:
 except ImportError:
     from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 try:
-    from qgis.PyQt.QtGui import QIcon, QColor
+    from qgis.PyQt.QtGui import QIcon, QColor, QPen
     from qgis.PyQt.QtWidgets import QAction, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem
 except ImportError:
-    from PyQt4.QtGui import QAction, QIcon, QColor, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem
+    from PyQt4.QtGui import QAction, QIcon, QColor, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem,QPen
 import qgis.utils
 # Initialize Qt resources from file resources.py
 try:
@@ -74,6 +74,15 @@ class PluginLoadTimes:
         self.dlg.sortspeedrev.clicked.connect(self.sortingspeedrev)
         self.dlg.sortalphabetical.clicked.connect(self.sortingalphabetical)
         self.dlg.sortalphabeticalrev.clicked.connect(self.sortingalphabeticalrev)
+        # get names of plugins
+        global pluginname
+        pluginname = {}
+        for path in qgis.utils.plugin_paths:
+            for pluginrange in qgis.utils.findPlugins(path):
+                for key in pluginrange[1].options('general'):
+                    if key=="name":
+                        pluginname[pluginrange[0]]=pluginrange[1].get('general',key)
+        # print(pluginname)
 
     def colorcode(self,time) :
         if float(time[:-1])<0.1:
@@ -140,17 +149,21 @@ class PluginLoadTimes:
         set_angle = 0
         small_times = 0
         small_name="all other plugins"
-        colours = []
+        small_colour=QColor(77,77,77)
+        colours = [QColor(93,165,218),QColor(250,164,58),QColor(96,189,104),QColor(241,124,176),QColor(178,145,47),QColor(178,118,178),QColor(222,207,63),QColor(241,88,84)]
+        countcolors = 0
         plugins = []
         times = []
         percentage = []
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
             number = []
-            for count in range(3):
-                number.append(random.randrange(0, 255))
-            colours.append(QColor(number[0],number[1],number[2]))
-            plugins.append(key)
+            plugins.append(pluginname[key])
             times.append(float(value[:-1]))
+            countcolors += 1
+            if countcolors>8:
+                for count in range(3):
+                    number.append(random.randrange(0, 255))
+                colours.append(QColor(number[0],number[1],number[2]))
         totaltime=sum(times)
         numberoftimes=len(times)
         try:
@@ -159,17 +172,19 @@ class PluginLoadTimes:
             listrange=range(0, numberoftimes-1)
         for id in listrange:
             percentage.append(times[id]/totaltime)
-            if percentage[id]>0.03:
+            if percentage[id]>0.01:
                 angle = round(float(times[id]*5760)/totaltime)
                 ellipse = QGraphicsEllipseItem(0,0,300,300)
                 ellipse.setPos(0,0)
                 ellipse.setStartAngle(set_angle)
                 ellipse.setSpanAngle(5760-set_angle)
                 ellipse.setBrush(colours[id])
+                ellipse.setPen(colours[id])
                 set_angle += angle
                 scene.addItem(ellipse)
                 rectangle=QGraphicsRectItem(-200,(id*30)+25,10,10)
                 rectangle.setBrush(colours[id])
+                rectangle.setPen(colours[id])
                 scene.addItem(rectangle)
                 legend=QGraphicsTextItem(plugins[id]+" ("+str(int(round(percentage[id]*100)))+"%)")
                 legend.setPos(-185,(id*30)+20)
@@ -178,7 +193,6 @@ class PluginLoadTimes:
                 
             else:
                 small_times+=times[id]
-                small_colour=colours[id]
         if small_times>0:
             angle = round(float(small_times*5760)/totaltime)
             ellipse = QGraphicsEllipseItem(0,0,300,300)
@@ -186,9 +200,11 @@ class PluginLoadTimes:
             ellipse.setStartAngle(set_angle)
             ellipse.setSpanAngle(angle)
             ellipse.setBrush(small_colour)
+            ellipse.setPen(small_colour)
             scene.addItem(ellipse)   
             rectangle=QGraphicsRectItem(-200,((maxid+1)*30)+25,10,10)
             rectangle.setBrush(small_colour)
+            rectangle.setPen(small_colour)
             scene.addItem(rectangle)    
             legend=QGraphicsTextItem(small_name)
             legend.setDefaultTextColor(QColor(160,160,160))
@@ -201,7 +217,7 @@ class PluginLoadTimes:
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=False):
             color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
@@ -211,7 +227,7 @@ class PluginLoadTimes:
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
             color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
@@ -221,7 +237,7 @@ class PluginLoadTimes:
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=False):
             color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
@@ -231,7 +247,7 @@ class PluginLoadTimes:
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=True):
             color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + key + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
