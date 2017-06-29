@@ -6,7 +6,7 @@
  Show how long each QGIS plugin loads
                               -------------------
         begin                : 2017-01-18
-        copyright            : (C) 2017 by Michel Stuyts
+        made by              : Michel Stuyts
         email                : info@stuyts.xyz
  ***************************************************************************/
 
@@ -24,10 +24,10 @@ try:
 except ImportError:
     from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 try:
-    from qgis.PyQt.QtGui import QIcon, QColor, QPen
+    from qgis.PyQt.QtGui import QIcon, QColor, QPen, QFont
     from qgis.PyQt.QtWidgets import QAction, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem
 except ImportError:
-    from PyQt4.QtGui import QAction, QIcon, QColor, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem,QPen
+    from PyQt4.QtGui import QAction, QIcon, QColor, QGraphicsScene, QGraphicsView, QGraphicsEllipseItem,QGraphicsRectItem,QGraphicsTextItem,QPen,QFont
 import qgis.utils
 # Initialize Qt resources from file resources.py
 try:
@@ -82,7 +82,6 @@ class PluginLoadTimes:
                 for key in pluginrange[1].options('general'):
                     if key=="name":
                         pluginname[pluginrange[0]]=pluginrange[1].get('general',key)
-        # print(pluginname)
 
     def colorcode(self,time) :
         if float(time[:-1])<0.1:
@@ -96,16 +95,6 @@ class PluginLoadTimes:
         return color
 
     def tr(self, message):
-        """Get the translation for a string using Qt translation API.
-
-        We implement this ourselves since we do not inherit QObject.
-
-        :param message: String for translation.
-        :type message: str, QString
-
-        :returns: Translated version of message.
-        :rtype: QString
-        """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('PluginLoadTimes', message)
 
@@ -120,29 +109,23 @@ class PluginLoadTimes:
         status_tip=None,
         whats_this=None,
         parent=None):
-
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
         action.triggered.connect(callback)
         action.setEnabled(enabled_flag)
-
         if status_tip is not None:
             action.setStatusTip(status_tip)
-
         if whats_this is not None:
             action.setWhatsThis(whats_this)
-
         if add_to_toolbar:
             self.toolbar.addAction(action)
-
         if add_to_menu:
             self.iface.addPluginToMenu(
                 self.menu,
                 action)
-
         self.actions.append(action)
-
         return action
+
     def addgraph(self):
         data=qgis.utils.plugin_times
         scene = QGraphicsScene()
@@ -182,12 +165,15 @@ class PluginLoadTimes:
                 ellipse.setPen(colours[id])
                 set_angle += angle
                 scene.addItem(ellipse)
-                rectangle=QGraphicsRectItem(-200,(id*30)+25,10,10)
+                rectangle=QGraphicsRectItem(-250,(id*30)+25,10,10)
                 rectangle.setBrush(colours[id])
                 rectangle.setPen(colours[id])
                 scene.addItem(rectangle)
+                if len(plugins[id])>27:
+                    plugins[id]=plugins[id][:24]+'...'
                 legend=QGraphicsTextItem(plugins[id]+" ("+str(int(round(percentage[id]*100)))+"%)")
-                legend.setPos(-185,(id*30)+20)
+                legend.setPos(-235,(id*30)+20)
+                legend.setFont(QFont('Courier',8))
                 scene.addItem(legend)
                 maxid=id
                 
@@ -202,52 +188,69 @@ class PluginLoadTimes:
             ellipse.setBrush(small_colour)
             ellipse.setPen(small_colour)
             scene.addItem(ellipse)   
-            rectangle=QGraphicsRectItem(-200,((maxid+1)*30)+25,10,10)
+            rectangle=QGraphicsRectItem(-250,((maxid+1)*30)+25,10,10)
             rectangle.setBrush(small_colour)
             rectangle.setPen(small_colour)
             scene.addItem(rectangle)    
             legend=QGraphicsTextItem(small_name)
             legend.setDefaultTextColor(QColor(160,160,160))
-            legend.setPos(-185,((maxid+1)*30)+20)
-            scene.addItem(legend)            
+            legend.setPos(-235,((maxid+1)*30)+20)
+            legend.setFont(QFont('Courier',8))
+            scene.addItem(legend)
+        title=QGraphicsTextItem('Total Load Time: '+str(totaltime)+'s.')
+        title.setPos(-235,-50)
+        title.setFont(QFont('Courier',18,75))
+        scene.addItem(title)
         self.dlg.graphicsView.setScene(scene)
         self.dlg.show()
     def sortingspeed(self):
         data=qgis.utils.plugin_times
+        tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=False):
             color=self.colorcode(value)
             outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            tabletotal+=float(value[:-1])
+        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
 
     def sortingspeedrev(self):
         data=qgis.utils.plugin_times
+        tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
             color=self.colorcode(value)
             outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            tabletotal+=float(value[:-1])
+        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
 
     def sortingalphabetical(self):
         data=qgis.utils.plugin_times
+        tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=False):
             color=self.colorcode(value)
             outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            tabletotal+=float(value[:-1])
+        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
 
     def sortingalphabeticalrev(self):
         data=qgis.utils.plugin_times
+        tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=True):
             color=self.colorcode(value)
             outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+            tabletotal+=float(value[:-1])
+        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
