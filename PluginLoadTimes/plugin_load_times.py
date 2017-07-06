@@ -155,7 +155,7 @@ class PluginLoadTimes:
             listrange=range(0, numberoftimes-1)
         for id in listrange:
             percentage.append(times[id]/totaltime)
-            if percentage[id]>0.01:
+            if percentage[id]>0.02:
                 angle = round(float(times[id]*5760)/totaltime)
                 ellipse = QGraphicsEllipseItem(0,0,300,300)
                 ellipse.setPos(0,0)
