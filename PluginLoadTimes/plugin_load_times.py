@@ -147,7 +147,7 @@ class PluginLoadTimes:
                 for count in range(3):
                     number.append(random.randrange(0, 255))
                 colours.append(QColor(number[0],number[1],number[2]))
-        totaltime=sum(times)
+        totaltime=round(sum(times),6)
         numberoftimes=len(times)
         try:
             listrange=xrange(0, numberoftimes-1)
@@ -165,14 +165,14 @@ class PluginLoadTimes:
                 ellipse.setPen(colours[id])
                 set_angle += angle
                 scene.addItem(ellipse)
-                rectangle=QGraphicsRectItem(-250,(id*30)+25,10,10)
+                rectangle=QGraphicsRectItem(-270,(id*30)+25,10,10)
                 rectangle.setBrush(colours[id])
                 rectangle.setPen(colours[id])
                 scene.addItem(rectangle)
                 if len(plugins[id])>27:
                     plugins[id]=plugins[id][:24]+'...'
-                legend=QGraphicsTextItem(plugins[id]+" ("+str(int(round(percentage[id]*100)))+"%)")
-                legend.setPos(-235,(id*30)+20)
+                legend=QGraphicsTextItem(plugins[id]+" ("+str(float(round(percentage[id]*100,1)))+"%)")
+                legend.setPos(-255,(id*30)+20)
                 legend.setFont(QFont('Courier',8))
                 scene.addItem(legend)
                 maxid=id
@@ -180,7 +180,8 @@ class PluginLoadTimes:
             else:
                 small_times+=times[id]
         if small_times>0:
-            angle = round(float(small_times*5760)/totaltime)
+            # angle = round(float(small_times*5760)/totaltime)
+            angle = 5760-set_angle
             ellipse = QGraphicsEllipseItem(0,0,300,300)
             ellipse.setPos(0,0)
             ellipse.setStartAngle(set_angle)
@@ -188,17 +189,17 @@ class PluginLoadTimes:
             ellipse.setBrush(small_colour)
             ellipse.setPen(small_colour)
             scene.addItem(ellipse)   
-            rectangle=QGraphicsRectItem(-250,((maxid+1)*30)+25,10,10)
+            rectangle=QGraphicsRectItem(-270,((maxid+1)*30)+25,10,10)
             rectangle.setBrush(small_colour)
             rectangle.setPen(small_colour)
             scene.addItem(rectangle)    
             legend=QGraphicsTextItem(small_name)
             legend.setDefaultTextColor(QColor(160,160,160))
-            legend.setPos(-235,((maxid+1)*30)+20)
+            legend.setPos(-255,((maxid+1)*30)+20)
             legend.setFont(QFont('Courier',8))
             scene.addItem(legend)
         title=QGraphicsTextItem('Total Load Time: '+str(totaltime)+'s.')
-        title.setPos(-235,-50)
+        title.setPos(-255,-50)
         title.setFont(QFont('Courier',18,75))
         scene.addItem(title)
         self.dlg.graphicsView.setScene(scene)

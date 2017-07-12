@@ -12,7 +12,7 @@ about=This plugin was created by Michel Stuyts (https://stuyts.xyz). License: GP
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=http://plugins.qgis.org/plugins/PluginLoadTimes/
 
-changelog=version 1.99.1: corrected up icon in QGIS 3.x.
+changelog=version 1.99.1: corrected up icon in QGIS 3.x., corrected pie chart.
     version 1.99: added a pie chart as experimental feature
     version 1.3: changed default ordering and changed button order in UI.
     version 1.2.1: made compatible with QGIS 2.14
