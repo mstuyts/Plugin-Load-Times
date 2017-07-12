@@ -101,7 +101,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;This plugin shows the load times of plugins during the last start of QGIS. It does not give you information about the speed of plugins when they are used.&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;This plugin shows the latest load time of each plugin (QGIS startup, plugin installation,...). It does not give you information about the speed of plugins when they are used.&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
