@@ -11,4 +11,6 @@ This QGIS plugin is inspired by a [Stack Exchange question](http://gis.stackexch
 
 If you use the plugin and notice a problem with it, please [report a bug](https://github.com/mstuyts/Plugin-Load-Times/issues).
 
-**[Download the latest version from Github](https://github.com/mstuyts/Plugin-Load-Times/releases/latest)**
+**[Download the latest stable version from Github](https://github.com/mstuyts/Plugin-Load-Times/releases/latest)**
+
+**[Download the latest experimental version from Github](https://github.com/mstuyts/Plugin-Load-Times/releases/tag/v.1.99.1)**
