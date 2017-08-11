@@ -74,6 +74,8 @@ class PluginLoadTimes:
         self.dlg.sortspeedrev.clicked.connect(self.sortingspeedrev)
         self.dlg.sortalphabetical.clicked.connect(self.sortingalphabetical)
         self.dlg.sortalphabeticalrev.clicked.connect(self.sortingalphabeticalrev)
+
+    def getpluginnames(self):
         # get names of plugins
         global pluginname
         pluginname = {}
@@ -83,7 +85,7 @@ class PluginLoadTimes:
                     if key=="name":
                         pluginname[pluginrange[0]]=pluginrange[1].get('general',key)
 
-    def colorcode(self,time) :
+    def colorcode(self,time):
         if float(time[:-1])<0.1:
             color="green"
         elif float(time[:-1])<1:
@@ -128,6 +130,7 @@ class PluginLoadTimes:
 
     def addgraph(self):
         data=qgis.utils.plugin_times
+        self.getpluginnames()
         scene = QGraphicsScene()
         set_angle = 0
         small_times = 0
@@ -155,6 +158,7 @@ class PluginLoadTimes:
             listrange=range(0, numberoftimes-1)
         for id in listrange:
             percentage.append(times[id]/totaltime)
+            # only plugins which take more than 2% of the total load time are shown in the pie chart. All other plugins go into the category "all other plugins".
             if percentage[id]>0.02:
                 angle = round(float(times[id]*5760)/totaltime)
                 ellipse = QGraphicsEllipseItem(0,0,300,300)
@@ -206,6 +210,7 @@ class PluginLoadTimes:
         self.dlg.show()
     def sortingspeed(self):
         data=qgis.utils.plugin_times
+        self.getpluginnames()
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=False):
@@ -219,6 +224,7 @@ class PluginLoadTimes:
 
     def sortingspeedrev(self):
         data=qgis.utils.plugin_times
+        self.getpluginnames()
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
@@ -232,6 +238,7 @@ class PluginLoadTimes:
 
     def sortingalphabetical(self):
         data=qgis.utils.plugin_times
+        self.getpluginnames()
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=False):
@@ -245,6 +252,7 @@ class PluginLoadTimes:
 
     def sortingalphabeticalrev(self):
         data=qgis.utils.plugin_times
+        self.getpluginnames()
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=True):
