@@ -143,13 +143,14 @@ class PluginLoadTimes:
         percentage = []
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
             number = []
-            plugins.append(pluginname[key])
-            times.append(float(value[:-1]))
-            countcolors += 1
-            if countcolors>8:
-                for count in range(3):
-                    number.append(random.randrange(0, 255))
-                colours.append(QColor(number[0],number[1],number[2]))
+            if key in pluginname:
+                plugins.append(pluginname[key])
+                times.append(float(value[:-1]))
+                countcolors += 1
+                if countcolors>8:
+                    for count in range(3):
+                        number.append(random.randrange(0, 255))
+                    colours.append(QColor(number[0],number[1],number[2]))
         totaltime=round(sum(times),6)
         numberoftimes=len(times)
         try:
@@ -214,9 +215,10 @@ class PluginLoadTimes:
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=False):
-            color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
-            tabletotal+=float(value[:-1])
+            if key in pluginname:
+                color=self.colorcode(value)
+                outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+                tabletotal+=float(value[:-1])
         outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
@@ -228,9 +230,10 @@ class PluginLoadTimes:
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: float(x[1][:-1]), reverse=True):
-            color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
-            tabletotal+=float(value[:-1])
+            if key in pluginname:
+                color=self.colorcode(value)
+                outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+                tabletotal+=float(value[:-1])
         outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
@@ -242,9 +245,10 @@ class PluginLoadTimes:
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=False):
-            color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
-            tabletotal+=float(value[:-1])
+            if key in pluginname:
+                color=self.colorcode(value)
+                outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+                tabletotal+=float(value[:-1])
         outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
@@ -256,9 +260,10 @@ class PluginLoadTimes:
         tabletotal=0
         outputtext="<table style='border: none;'>"
         for key,value in sorted(data.items(), key=lambda x: x[0].lower(), reverse=True):
-            color=self.colorcode(value)
-            outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
-            tabletotal+=float(value[:-1])
+            if key in pluginname:
+                color=self.colorcode(value)
+                outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
+                tabletotal+=float(value[:-1])
         outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(tabletotal) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)

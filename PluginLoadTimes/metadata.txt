@@ -3,7 +3,7 @@ name=Plugin Load Times
 qgisMinimumVersion=2.14
 qgisMaximumVersion=3.98
 description=This plugin shows the latest load time of each plugin (QGIS startup, plugin installation,...). It does not give you information about the speed of plugins when they are used.
-version=2.0.2 
+version=2.0.3 
 author=Michel Stuyts
 email=info@stuyts.xyz
 
@@ -12,7 +12,8 @@ about=This plugin was created by Michel Stuyts (https://stuyts.xyz). License: GP
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=http://plugins.qgis.org/plugins/PluginLoadTimes/
 
-changelog=version 2.0.2: minor update to UI
+changelog=version 2.0.3: solved a bug that gave an error when uninstalling a plugin
+    version 2.0.2: minor update to UI
     version 2.0.1: changed default tab
     version 2.0: added information about data source
     version 1.99.1: corrected up icon in QGIS 3.x., corrected pie chart.
