@@ -219,7 +219,7 @@ class PluginLoadTimes:
                 color=self.colorcode(value)
                 outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 11pt; color: " + color  + ";'><td style='padding-bottom: 0.5em;'>" + pluginname[key] + ":</td><td style='padding-bottom: 0.5em;'>" + value + "</td></tr>"
                 tabletotal+=float(value[:-1])
-        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(round(tabletotal,6) + "s</td></tr>"
+        outputtext += "<tr style='font-weight: bold; font-family: tahoma, arial; font-size: 16pt; color: black; '><td style='padding-bottom: 0.5em;'>TOTAL LOAD TIME:</td><td style='padding-bottom: 0.5em; '>" + str(round(tabletotal,6)) + "s</td></tr>"
         outputtext += "</table>"
         self.dlg.showloadtimes.setText(outputtext)
         self.dlg.show()
