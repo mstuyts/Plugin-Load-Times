@@ -12,7 +12,8 @@ about=This plugin was created by Michel Stuyts (https://stuyts.xyz). License: GP
 tracker=https://github.com/mstuyts/Plugin-Load-Times/issues
 repository=http://plugins.qgis.org/plugins/PluginLoadTimes/
 
-changelog=version 2.0.2: minor update to UI, solved a bug that gave an error when uninstalling a plugin
+changelog=version 2.0.3: solved floating point error in table view
+    version 2.0.2: minor update to UI, solved a bug that gave an error when uninstalling a plugin
     version 2.0.1: changed default tab
     version 2.0: added information about data source
     version 1.99.1: corrected up icon in QGIS 3.x., corrected pie chart.
